@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Game Tournament Results</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏆 AI Chess Tournament Results</h1>
+            <div class="header-controls">
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button id="exportBtn" class="export-btn">Export CSV</button>
+            </div>
+        </header>
+
+        <div class="controls-section">
+            <div class="search-filter-row">
+                <input type="text" id="searchInput" placeholder="Search players..." class="search-input">
+                <select id="sortSelect" class="sort-select">
+                    <option value="rank">Rank by Final Standing</option>
+                    <option value="rating">Rank by Rating (μ)</option>
+                    <option value="winRate">Rank by Win Rate</option>
+                    <option value="wins">Sort by Wins</option>
+                    <option value="games">Sort by Games</option>
+                </select>
+            </div>
+            <div class="filter-row">
+                <label>
+                    <input type="checkbox" id="top10Filter" class="filter-checkbox">
+                    Top 10 Only
+                </label>
+                <label>
+                    <input type="checkbox" id="perfectFilter" class="filter-checkbox">
+                    Perfect Records (100% Win Rate)
+                </label>
+            </div>
+        </div>
+
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-value" id="totalPlayers">36</div>
+                <div class="stat-label">Total Players</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgRating">0</div>
+                <div class="stat-label">Avg Rating</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avgWinRate">0%</div>
+                <div class="stat-label">Avg Win Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalGames">0</div>
+                <div class="stat-label">Total Games</div>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <div class="chart-container">
+                <h2>Win Rate Distribution</h2>
+                <canvas id="winRateChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2>Rating Distribution</h2>
+                <canvas id="ratingChart"></canvas>
+            </div>
+            <div class="chart-container chart-container-small">
+                <h2>Total Game Statistics</h2>
+                <canvas id="gameStatsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="leaderboard-section">
+            <h2>Leaderboard</h2>
+            <div class="table-container">
+                <table id="leaderboardTable" class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Pin</th>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Model</th>
+                            <th>Rating (μ)</th>
+                            <th>Uncertainty (σ)</th>
+                            <th>Wins</th>
+                            <th>Draws</th>
+                            <th>Losses</th>
+                            <th>Games</th>
+                            <th>Win Rate</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboardBody">
+                        <!-- Populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Player Details Modal -->
+    <div id="playerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalPlayerName">Player Details</h2>
+            <div id="modalPlayerStats" class="modal-stats">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div id="modalPlayerModel" class="modal-model-section">
+                <!-- Populated by JavaScript -->
+            </div>
+            <div id="modalPlayerPrompts" class="modal-prompts-section">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div id="comparisonModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close" id="closeComparison">&times;</span>
+            <h2>Player Comparison</h2>
+            <div id="comparisonContent" class="comparison-content">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
